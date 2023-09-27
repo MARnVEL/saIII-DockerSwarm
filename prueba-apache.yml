@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  apache:
+    image: httpd:latest
+    deploy:
+      replicas: 3
+    ports:
+      - "80:80"
