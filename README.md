@@ -1,5 +1,5 @@
 
-# Docker Compose (servers + balancer)
+# Docker Swarm (servers + balancer)
 >
 > This repo was created to address some practical questions about Docker Compose posed by the class 'Upgrade Seminar III' of the **Formosa Polytechnic Institute** .
 > *Este repositorio fue creado para abordar algunas preguntas prácticas sobre Docker Compose planteadas por la clase 'Seminario de Actualización III' del **Instituto Politécnico Formosa***.
@@ -45,50 +45,67 @@
 git clone https://github.com/MARnVEL/saIII-DockerSwarm.git
 ```
 
-* Iniciar la aplicación Docker Desktop
+1. Iniciar la aplicación Docker Desktop
 
-* En un CLI **inicializamos docker swarm**:
+2. En un CLI **inicializamos docker swarm**:
 
-```bash
-docker swarm init
-```
+      ```bash
+      docker swarm init
+      ```
 
-* En el directorio de nuestro sistema donde guardamos el proyecto, ejecutamos en el CLI:
+3. En el directorio de nuestro sistema donde guardamos el proyecto, ejecutamos en el CLI
 
-```bash
-docker stack deploy -c node-services.yml myNodeJS
-```
+      ```bash
+      docker stack deploy -c node-services.yml myNodeJS
+      ```
 
-* Podemos listar los servicios de **swarm**:
+4. Podemos listar los servicios de **swarm**:
 
-```bash
-docker service ls
-```
+      ```bash
+      docker service ls
+      ```
 
-* Ahora, debemos hacer unas pequeñas modificaciones de nuestros servidores dentro de los servicios desplegados para que podamos distinguir claramente el balanceo y/o funcionamiento de la herramiente "Docker swarm".
+5. Ahora, debemos hacer unas pequeñas modificaciones de nuestros servidores dentro de los servicios desplegados para que podamos distinguir claramente el balanceo y/o funcionamiento de la herramiente "Docker swarm".
 
-* Listamos los contenedores levantados y anotamos los IDs para los 3 servicios desplegados:
+6. Listamos los contenedores levantados y anotamos los IDs para los 3 servicios desplegados:
 
-```bash
-docker ps -a
-```
+      ```bash
+      docker ps
+      ```
 
-* Para cada contenedor hacemos lo siguiente:
+7. Para cada contenedor hacemos lo siguiente:
 
-```bahs
-docker exec -it <idContenedor> bash
-```
+      ```bash
+      docker exec -it <idContenedor> bash
+      ```
 
-* Hacemos una consulta `ls` para saber qué tenemos efectivamente dentro del contenedor.
-* Una vez dentro del cotenedor hacemos:
+      * Hacemos una consulta `ls` para saber qué tenemos efectivamente dentro del contenedor.
+      * Una vez dentro del cotenedor hacemos:
 
-  ```bash
-  apg-get update
-  ```
+      ```bash
+      apg-get update
+      ```
 
-* Hacemos la instalación del editor nano para poder editar nuestro fichero `index.js`
+      * Hacemos la instalación del editor nano para poder editar nuestro fichero `index.js`
 
-  ```bash
-  apg-get install nano
-  ```
-* Ahora editamos nuestro fichero `index.js`
+      ```bash
+      apg-get install nano
+      ```
+
+      * Ahora editamos nuestro fichero `index.js`
+
+      ```bash
+      apg-get install nano
+      ```
+
+      En la línea 7 cambiamos el valor dentro del `<h1>`: `res.send("<h1>Server 1</h1>");`.
+      Si el servicio es el primero, tendrá el número 1; si el servicio es el segundo, tendrá el númer 2, y así sucesivamente.
+
+8. Escalamiento. Para poder aumentar la cantidad de servicios disponibles, abrimos un CLI y ejecutamos:
+
+      ```bash
+      docker service scale myNodeJS=5
+      ```
+
+      Con el comando anterior hemos aumentado la cantidad de nuestros servicios de nombre `myNodeJs` a `5`.
+      Debemos aclarar que este comando, elimina los contenedores que se están ejecutando y se levantan nuevamente en la cantidad asignada.
