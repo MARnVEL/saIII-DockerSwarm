@@ -2,8 +2,8 @@ version: '3'
 
 services:
   node:
-    image: node:18-alpine
+    image: my-image
     deploy:
       replicas: 3
     ports:
-      - "8001:81"
+      - "80:81"
